@@ -1,6 +1,6 @@
 # Review: `lab/tasks/required/task-1.md`
 
-- **Date:** 2026-03-07
+- **Date:** 2026-03-10
 - **Convention files used:**
   - `contributing/conventions/writing/tasks.md` — task structure, design principles, conceptual review dimensions (D1–D12)
   - `contributing/conventions/writing/common.md` — writing conventions (4.1–4.26)
@@ -15,9 +15,11 @@ No issues found.
 
 ### D2. Step-by-step completeness
 
-1. **[Medium]** Line 206 — "Start the `Qwen code` coding agent in the terminal inside the project directory." No instructions on how to start the agent, no link to a wiki page or setup guide. A student unfamiliar with Qwen code would not know what command to run or how to install/configure it.
+1. **[Medium]** Line 250: "Start the `Qwen code` coding agent in the terminal inside the project directory" provides no link or reference to setup/installation instructions for the tool. A student unfamiliar with `Qwen code` would not know what command to run or how to launch it.
+   **Suggested fix:** Add a link to a wiki page explaining how to install and start the agent (e.g., `[Start the \`Qwen code\` coding agent](../../../wiki/qwen-code.md#start-the-agent)`), or inline the startup command.
 
-   **Suggested fix:** Add a link to a wiki page explaining how to start Qwen code (e.g., `[Start the `Qwen code` coding agent](../../../wiki/qwen-code.md#start-the-agent)`), or inline the startup command.
+2. **[Low]** Lines 336, 340, 344: Steps say "try `GET /items/`", "Try `GET /learners/`", "Try `GET /interactions/`" using the vague verb "try", unlike [step 1.4.3](lab/tasks/required/task-1.md#143-run-and-test-locally) (line 291) which uses explicit Swagger UI instructions ("expand ..., click `Try it out`, then `Execute`").
+   **Suggested fix:** Use consistent phrasing such as "expand `GET /items/`, click `Try it out`, then `Execute`", or reference the interaction pattern established in step 1.4.3.
 
 ### D3. Student navigation
 
@@ -25,7 +27,8 @@ No issues found.
 
 ### D4. Checkpoints and feedback loops
 
-No issues found.
+1. **[Low]** Line 416: [Step 1.4.7](lab/tasks/required/task-1.md#147-update-and-test-on-the-vm) checkpoint says "You should get `200` with `new_records` and `total_records`" but does not show an expected JSON response body, unlike [step 1.4.3](lab/tasks/required/task-1.md#143-run-and-test-locally) (lines 293–300) and [step 1.4.5](lab/tasks/required/task-1.md#145-test-idempotency-locally) (lines 356–361) which include exact expected JSON.
+   **Suggested fix:** Add an expected JSON response block for consistency with other checkpoints.
 
 ### D5. Acceptance criteria alignment
 
@@ -37,15 +40,13 @@ No issues found.
 
 ### D7. Practical usability
 
-1. **[Medium]** Line 206 — "Start the `Qwen code` coding agent" assumes the student has the agent installed and knows how to start it. No installation prerequisites, no link to documentation. A student on a fresh setup would be blocked at this step.
-
-   **Suggested fix:** Either link to a wiki page with setup instructions or add a prerequisite note referencing where Qwen code is installed/configured (e.g., in `setup.md`).
+1. **[Medium]** Line 250: No setup instructions or wiki link for the `Qwen code` coding agent. Students who haven't installed or configured the tool would be blocked without external help. (Same root cause as D2 finding #1, manifesting as a usability gap.)
+   **Suggested fix:** Add a prerequisite link or reference to a wiki page with installation and launch instructions.
 
 ### D8. LLM-independence
 
-1. **[High]** Lines 206–211 — Step 1.4.2 requires using the `Qwen code` AI agent to implement the pipeline but does not provide a non-AI alternative path. Convention 4.16 (LLM-independence) requires tasks to be completable without LLMs unless the task explicitly states that students must use an AI. The step is not labeled as AI-required, and no fallback path exists for students who don't use the agent.
-
-   **Suggested fix:** Either (a) provide an explicit non-AI path (e.g., "Implement the five functions by following the TODO comments in `etl.py` — use the existing models in `backend/app/models/` as reference"), or (b) clearly label the step as AI-required per convention 4.16 ("When a task explicitly requires AI use, mark it as a separate, clearly labeled part").
+1. **[Medium]** Lines 250–273 ([step 1.4.2](lab/tasks/required/task-1.md#142-implement-the-pipeline)): The implementation step relies entirely on an AI coding agent. The task does not explicitly state that AI is required for this step, nor does it provide an alternative path (placeholder templates, step-by-step coding instructions) for students who choose not to use AI. Convention 4.16 requires tasks to be completable without LLMs unless AI use is explicitly stated.
+   **Suggested fix:** Either (a) add placeholder code or step-by-step implementation guidance as a non-AI path, or (b) explicitly state that this step requires AI and label it as an AI-required part per convention 4.16.
 
 ### D9. Git workflow coherence
 
@@ -53,19 +54,12 @@ No issues found.
 
 ### D10. Conceptual gaps and misconceptions
 
-1. **[Low]** Line 74 — "The API has HTTP Basic Auth" is stated without explanation or a link to learn more. Students unfamiliar with HTTP Basic Auth may not understand what this means or how the `-u` flag in `curl` relates to it.
-
-   **Suggested fix:** Add a brief inline explanation or a `> [!NOTE]` block explaining that HTTP Basic Auth sends credentials as `username:password` and that `curl -u` provides these credentials.
+No issues found.
 
 ### D11. Controlled AI steps
 
-1. **[Medium]** Lines 206–221 — The AI prompt is provided (line 209) and there is a review checklist (lines 215–221), but the task does not require AI curation annotations (`KEPT`/`FIXED`/`DISCARDED`) per convention 4.24. Students are asked to "review" the generated code but have no structured way to demonstrate critical evaluation of the AI output.
-
-   **Suggested fix:** If AI-generated code curation is a learning objective, add the three annotation labels requirement and require at least one `DISCARDED` item. If not, consider adding a concrete checkpoint for the review step (e.g., "Confirm the code matches all six checklist items before proceeding").
-
-2. **[Low]** Lines 206–221 — The step lacks a concrete verification checkpoint after the AI generates code. The review checklist (lines 215–221) tells students what to look for but does not provide a pass/fail check to confirm the implementation is correct before proceeding to run it.
-
-   **Suggested fix:** Add a checkpoint such as: "After reviewing, confirm the code passes a quick syntax check or imports without errors."
+1. **[Low]** Lines 252–253: The prompt includes subjective phrasing ("explain each function step by step as if teaching a junior engineer") that may produce variable outputs across AI tools. The review checklist (lines 257–265) partially constrains the result but is a post-hoc review, not a concrete verifiable checkpoint.
+   **Suggested fix:** Add a concrete checkpoint at the end of step 1.4.2 (e.g., "The implementation must pass `POST /pipeline/sync` — proceed to step 1.4.3 to verify"), which the task already provides implicitly but could state explicitly to close the feedback loop.
 
 ### D12. Autochecker verifiability
 
@@ -75,17 +69,15 @@ No issues found.
 
 ## Convention findings
 
-### Section 1. Task document template
-
-1. **Lines 42–63:** Step 1.2 combines issue creation (lines 44–48) and branch creation (lines 50–58) with an explanatory note (lines 60–63). The task template shows step 1.2 as only issue creation (`Title: [Task] <Task title>`). Branch creation is part of the Git workflow referenced in step 1.1.
-
 ### 4.1. Instructions wording
 
-No issues found.
+1. **[Low]** Line 291: Three actions chained in one instruction: "expand `POST /pipeline/sync`, click `Try it out`, then `Execute`." Convention 4.1 requires splitting compound instructions into separate numbered steps. Borderline case since these actions form a single Swagger UI interaction flow.
+   **Suggested fix:** Split into sub-steps, or keep as-is if considered a single logical action.
 
 ### 4.2. Terminal commands
 
-No issues found.
+1. **[Medium]** Lines 391–401: Git commands (`cd`, `git fetch`, `git checkout`, `git pull`) and `docker compose up --build -d` are combined in a single terminal block under one "To pull your branch and restart the services on your VM" intention. Convention (tasks.md Section 3, line 194) explicitly states: "`git pull` (version control) and `docker compose up` (container management) must be separate steps even when run in sequence."
+   **Suggested fix:** Split into two steps — one for git operations ("To update to your task branch on the VM") and one for Docker ("To rebuild and start the services").
 
 ### 4.3. Command Palette commands
 
@@ -93,7 +85,7 @@ Not applicable.
 
 ### 4.4. Options vs steps
 
-Not applicable.
+No issues found.
 
 ### 4.5. Ordered lists
 
@@ -149,7 +141,12 @@ Not applicable.
 
 ### 4.18. Inline formatting of technical terms
 
-No issues found.
+1. **[Medium]** Line 13: "Autochecker API" — `Autochecker` is a tool name and must be backticked: `` `Autochecker` API ``.
+2. **[Medium]** Line 116: "the Autochecker API" — same issue: `` the `Autochecker` API ``.
+3. **[Medium]** Line 132: "Autochecker bot" — same issue: `` `Autochecker` bot ``.
+4. **[Low]** Line 302: "the Autochecker" — same issue: `` the `Autochecker` ``.
+5. **[Low]** Line 322: Inside `<h4>` tag, "Autochecker" should use `<code>Autochecker</code>` (backticks don't render inside HTML tags).
+6. **[Medium]** Line 328: "autochecker" is both lowercase and unformatted inside `<h4>` tag. Should be `<code>Autochecker</code>` with correct capitalization.
 
 ### 4.19. Steps with sub-steps
 
@@ -183,30 +180,42 @@ Not applicable.
 
 Not applicable.
 
+### Section 1. Task document template (tasks.md)
+
+1. **[Low]** Lines 94–107: [Section 1.2 "Create a `Lab Task` issue"](lab/tasks/required/task-1.md#12-create-a-lab-task-issue) includes branch creation instructions and a naming explanation. The template (tasks.md lines 89–91) specifies that step 1.2 should contain only the issue title. Branch creation belongs in a dedicated step or is covered by the git workflow reference in step 1.1.
+   **Suggested fix:** Move branch creation to a separate step (e.g., 1.3) or to the git workflow wiki.
+
+### Recovery guidance (tasks.md 4.19)
+
+1. **[High]** Line 326: Duplicate empty `<h4>500 Internal Server Error</h4>` heading inside the troubleshooting block. This heading has no content — it is immediately followed by `<h4>Connection refused to the autochecker API</h4>` on line 328. Appears to be an editing artifact.
+   **Suggested fix:** Remove the duplicate empty `<h4>500 Internal Server Error</h4>` on line 326.
+
 ---
 
 ## TODOs
 
-No `<!-- TODO ... -->` comments found.
+No TODOs found.
 
 ---
 
 ## Empty sections
 
-No empty sections found.
+1. Line 326: `<h4>500 Internal Server Error</h4>` — empty heading inside the troubleshooting block (immediately followed by `<h4>Connection refused to the autochecker API</h4>` with no content in between).
 
 ---
 
 ## Summary
 
-| Category                | Count |
-| ----------------------- | ----- |
-| Conceptual — High       | 1     |
-| Conceptual — Medium     | 3     |
-| Conceptual — Low        | 2     |
-| Convention violations   | 1     |
-| TODOs                   | 0     |
-| Empty sections          | 0     |
-| **Total**               | **7** |
+| Category | Count |
+| --- | --- |
+| Conceptual [High] | 0 |
+| Conceptual [Medium] | 3 |
+| Conceptual [Low] | 3 |
+| Convention [High] | 1 |
+| Convention [Medium] | 5 |
+| Convention [Low] | 4 |
+| TODOs | 0 |
+| Empty sections | 1 |
+| **Total** | **17** |
 
-**Overall assessment:** The task is well-structured with clear steps, good checkpoints, proper troubleshooting blocks, and well-aligned acceptance criteria. The remaining high-severity issue is the LLM-independence violation (step 1.4.2 requires an AI agent without providing a non-AI alternative or labeling the step as AI-required). Medium issues: missing Qwen code startup instructions (D2, D7) and missing AI curation annotations (D11). Low issues: unexplained HTTP Basic Auth (D10) and missing post-generation verification checkpoint (D11). Convention violation: the combined issue+branch step (Section 1 #1).
+**Overall:** The task is well-structured with good progression (Part A explores the API before Part B builds the pipeline), an accurate ToC, proper checkpoints with expected output, and a solid troubleshooting block. The most critical issue is a duplicate empty `<h4>500 Internal Server Error</h4>` heading (line 326) that appears to be an editing artifact. The main conceptual concern is that step 1.4.2 relies entirely on an AI coding agent without providing a non-AI alternative or explicitly stating that AI is required, violating the LLM-independence principle (convention 4.16). Several instances of "Autochecker" lack backtick formatting (lines 13, 116, 132, 302, 322, 328), and git/docker commands are mixed in a single terminal block in step 1.4.7. Fixing the High-severity duplicate heading, addressing the LLM-independence gap, and adding backticks to "Autochecker" references would bring the task into good shape.
