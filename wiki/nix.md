@@ -22,7 +22,7 @@
 
 `Nix` is a cross-platform [package manager](./package-manager.md#package) that provides reproducible, isolated software [environments](./environments.md#what-is-an-environment).
 
-It allows you to install [tools](./package-manager.md#tool) and [dependencies](./package-manager.md#dependency) without affecting the rest of your system.
+It allows you to install [tools](./software-types.md#tool) and [dependencies](./package-manager.md#dependency) without affecting the rest of your system.
 
 Many of the packages are available in [`nixpkgs`](#nixpkgs).
 
@@ -35,7 +35,7 @@ Docs:
 ## `nixpkgs`
 
 `nixpkgs` is the official [package](./package-manager.md#package) collection for `Nix`, containing over 120,000 packages.
-It is a source from which `Nix` installs [tools](./package-manager.md#tool) and [dependencies](./package-manager.md#dependency).
+It is a source from which `Nix` installs [tools](./software-types.md#tool) and [dependencies](./package-manager.md#dependency).
 
 According to [`Repology`](https://repology.org/docs/about), `nixpkgs` contains the largest number of the newest versions of packages among `Linux` repositories (see the [comparison](https://repology.org/repositories/statistics/newest)).
 

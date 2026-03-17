@@ -10,6 +10,7 @@
 - [Executable](#executable)
 - [Application](#application)
   - [Web application](#web-application)
+- [Tool](#tool)
 
 ## What is software
 
@@ -60,3 +61,7 @@ It is built from one or more [programs](#program) and [libraries](#library), and
 A web application runs as a [process](./operating-system.md#process) on a [web server](./web-infrastructure.md#web-server).
 
 The web application is accessed by a [web client](./web-infrastructure.md#web-client) over the [network](./computer-networks.md#what-is-a-network).
+
+## Tool
+
+A tool is a [program](./software-types.md#program) you run directly on the command line or in your workflow, such as `git`, `python`, or `node`.
