@@ -1,4 +1,4 @@
-from handlers import basic
+from handlers.core import basic
 
 def route(command: str) -> str:
     if command.startswith("/start"):
