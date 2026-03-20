@@ -63,21 +63,25 @@ def scores(command: str):
     if "error" in data:
         return f"Backend error: {data['error']}"
 
-    if not data:
+    # If backend wraps tasks in a key
+    if isinstance(data, dict) and "tasks" in data:
+        tasks = data["tasks"]
+    else:
+        tasks = data
+
+    if not tasks:
         return f"No data found for {lab_id}"
 
     output = f"Pass rates for {lab_id}:\n"
 
-    for task in data:
-        # use correct backend field names
-        name = task.get("task_name", "Unknown")
+    for task in tasks:
+        # try multiple possible keys
+        name = task.get("task") or task.get("name") or "Unknown"
         rate = task.get("pass_rate", 0.0)
         attempts = task.get("attempts", 0)
-
         output += f"- {name}: {rate:.1f}% ({attempts} attempts)\n"
 
     return output.strip()
-
 
 def unknown():
     return "Unknown command. Try /help"
