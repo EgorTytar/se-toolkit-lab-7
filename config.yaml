@@ -1,0 +1,8 @@
+model_list:
+  - model_name: coder-model
+    litellm_params:
+      model: openrouter/stepfun/step-3.5-flash:free
+      api_key: os.environ/OPENROUTER_API_KEY
+
+general_settings:
+  master_key: "local-proxy-key"
