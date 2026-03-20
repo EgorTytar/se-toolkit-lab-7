@@ -1,5 +1,6 @@
 from handlers.core import basic
 
+
 def route(command: str) -> str:
     if command.startswith("/start"):
         return basic.start()
@@ -9,5 +10,7 @@ def route(command: str) -> str:
         return basic.health()
     elif command.startswith("/labs"):
         return basic.labs()
+    elif command.startswith("/scores"):
+        return basic.scores(command)
     else:
         return basic.unknown()
