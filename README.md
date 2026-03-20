@@ -91,3 +91,82 @@ By the end of this lab, you should be able to say:
 2. [Backend Integration](./lab/tasks/required/task-2.md) — P0: slash commands + real data
 3. [Intent-Based Natural Language Routing](./lab/tasks/required/task-3.md) — P1: LLM tool use
 4. [Containerize and Document](./lab/tasks/required/task-4.md) — P3: containerize + deploy
+
+## Deploy
+
+### Prerequisites
+
+Before deploying, ensure you have:
+
+1. A Telegram bot token from [@BotFather](https://t.me/BotFather)
+2. The LLM proxy running (LiteLLM with OpenRouter)
+3. Backend data synced (ETL pipeline has run)
+
+### Environment variables
+
+Create `.env.docker.secret` with the following:
+
+```bash
+# Bot credentials
+BOT_TOKEN=<your-telegram-bot-token>
+
+# LMS API (Docker networking: use service name, not localhost)
+LMS_API_URL=http://backend:8000
+LMS_API_KEY=key
+
+# LLM API (use host.docker.internal to reach host machine)
+LLM_API_KEY=local-proxy-key
+LLM_API_BASE_URL=http://host.docker.internal:42005/v1
+LLM_API_MODEL=coder-model
+```
+
+### Deploy commands
+
+```bash
+# Navigate to project
+cd ~/se-toolkit-lab-7
+
+# Stop any running bot process (from Task 3)
+pkill -f "bot.py" 2>/dev/null
+
+# Build and start all services
+docker compose --env-file .env.docker.secret up --build -d
+
+# Check status
+docker compose --env-file .env.docker.secret ps
+
+# View bot logs
+docker compose --env-file .env.docker.secret logs bot --tail=50
+```
+
+### Verify deployment
+
+```bash
+# Check bot is running
+docker compose --env-file .env.docker.secret ps bot
+
+# Backend should still be healthy
+curl -sf http://localhost:42002/docs
+
+# Test in Telegram
+# Send: /start, /health, "what labs are available?"
+```
+
+### Troubleshooting
+
+| Problem | Solution |
+|---------|----------|
+| Bot container restarts | Check logs: `docker compose logs bot` |
+| LLM queries fail | Ensure LiteLLM proxy is running on host port 42005 |
+| `/health` fails | Check `LMS_API_URL` uses `http://backend:8000` |
+| "BOT_TOKEN is required" | Add to `.env.docker.secret` |
+
+### Stop deployment
+
+```bash
+# Stop all services
+docker compose --env-file .env.docker.secret down
+
+# Restart bot only
+docker compose --env-file .env.docker.secret restart bot
+```

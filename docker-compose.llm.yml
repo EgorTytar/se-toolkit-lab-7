@@ -1,0 +1,12 @@
+services:
+  litellm:
+    image: ghcr.io/berriai/litellm:main-latest
+    container_name: litellm
+    ports:
+      - "42005:4000"
+    environment:
+      OPENROUTER_API_KEY: "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"
+    volumes:
+      - ./config.yaml:/app/config.yaml
+    command: ["--config", "/app/config.yaml", "--host", "0.0.0.0", "--port", "4000"]
+    restart: unless-stopped
