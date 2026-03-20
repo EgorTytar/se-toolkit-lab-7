@@ -1,5 +1,8 @@
 from services.lms_client import LMSClient
 
+from services.lms_client import LMSClient
+
+# global client
 client = LMSClient()
 
 
@@ -28,43 +31,47 @@ def health():
 
 
 def labs():
+    """Return list of labs with proper titles"""
     data = client.get_items()
-
+    
     if "error" in data:
         return f"Backend error: {data['error']}"
 
-    labs = [item for item in data if item.get("type") == "lab"]
+    labs_list = [item for item in data if item.get("type") == "lab"]
 
-    if not labs:
+    if not labs_list:
         return "No labs found."
 
     output = "Available labs:\n"
-    for lab in labs:
-        output += f"- {lab.get('name')}\n"
+    for lab in labs_list:
+        # Use 'title' instead of 'name'
+        output += f"- {lab.get('title', 'Unknown')}\n"
 
     return output.strip()
 
 
 def scores(command: str):
-    parts = command.split()
+    """Return per-task pass rates for a given lab"""
+    parts = command.strip().split()
 
     if len(parts) < 2:
         return "Usage: /scores <lab>"
 
-    lab = parts[1]
-    data = client.get_pass_rates(lab)
+    lab_id = parts[1]
+    data = client.get_pass_rates(lab_id)
 
     if "error" in data:
         return f"Backend error: {data['error']}"
 
     if not data:
-        return f"No data found for {lab}"
+        return f"No data found for {lab_id}"
 
-    output = f"Pass rates for {lab}:\n"
+    output = f"Pass rates for {lab_id}:\n"
 
     for task in data:
-        name = task.get("task", "Unknown")
-        rate = task.get("pass_rate", 0)
+        # use correct backend field names
+        name = task.get("task_name", "Unknown")
+        rate = task.get("pass_rate", 0.0)
         attempts = task.get("attempts", 0)
 
         output += f"- {name}: {rate:.1f}% ({attempts} attempts)\n"
