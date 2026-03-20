@@ -1,7 +1,8 @@
 import os
 from dotenv import load_dotenv
 
-load_dotenv(".env.bot.secret")
+# Load from project root
+load_dotenv(os.path.expanduser("~/se-toolkit-lab-7/.env.bot.secret"))
 
 BOT_TOKEN = os.getenv("BOT_TOKEN")
 LMS_API_URL = os.getenv("LMS_API_URL")
